@@ -12,6 +12,24 @@ export interface Section {
     component: JSX.Element
 }
 
+const sections: Section[] = [
+    {
+        title: 'Reel',
+        component: <Reel />,
+    },
+    {
+        title: 'Work',
+        component: <Work />
+    },
+    {
+        title: 'About',
+        component: <About />
+    },
+    {
+        title: 'Contact',
+        component: <Contact emailTo='jen@bendle.com' />
+    }
+]
 
 export const LandingPage = () => {
     const sectionRefs = useRef<RefObject<HTMLElement>['current'][]>(Array(sections.length).fill(null))
