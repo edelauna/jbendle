@@ -9,7 +9,7 @@ export const Footer = () => {
                 © {new Date().getFullYear()} Jennifer Bendle. All Rights Reserved.
             </Typography>
             <Typography variant="body2">
-                Website by <Link href="#">edelauna</Link>
+                Website by <Link href="https://github.com/edelauna/jbendle">edelauna</Link>
             </Typography>
         </footer>
     </Grid>
