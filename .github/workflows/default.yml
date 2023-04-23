@@ -1,0 +1,40 @@
+name: Blob storage website CI
+
+on:
+  push:
+    branches: [dev]
+
+jobs:
+  build:
+    environment: Main
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Use Node.js 18
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18.x"
+      - name: Install dependencies
+        run: npm install
+      - name: Run tests
+        run: npm run test
+      - name: build
+        run: npm run build
+
+      - uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Upload to blob storage
+        uses: azure/CLI@v1
+        env:
+          STORAGE_ACCOUNT_NAME: ${{ secrets.STORAGE_ACCOUNT_NAME }}
+        with:
+          inlineScript: |
+            az storage blob upload-batch --account-name ${STORAGE_ACCOUNT_NAME} --auth-mode key -d '$web' -s build/
+      # Azure logout
+      - name: logout
+        run: |
+          az logout
+        if: always()
